@@ -13,10 +13,14 @@ RUN apt update && apt -y install \
         git \
         sqlite3 \
         libsqlite3-dev \
+        python \
         python3 \
         python3-dev \
         python3-pip \
         golang \
+        webp \
+        neofetch \
+        imagemagick \
         ca-certificates \
         dnsutils \
         tzdata \
