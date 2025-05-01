@@ -9,57 +9,12 @@ YELLOW='\033[1;33m'
 MAGENTA='\033[1;35m'
 NC='\033[0m' # No Color
 
-# Banner IndoLife
+# Setup Neofetch config dari GitHub
+mkdir -p /root/.config/neofetch
+wget -qO /root/.config/neofetch/config.conf "https://raw.githubusercontent.com/Adisdzaky1/indo-life/main/config.conf"
+
 clear
-echo -e "${RED}"
-echo "=============================="
-echo -e "     ${MAGENTA}Welcome to Panel VIP${NC}     "
-echo "=============================="
-echo -e "${NC}"
-sleep 1
-
-# Animasi Loading
-echo -e "${CYAN}Loading system information...${NC}"
-sleep 1
-for i in {1..5}; do
-    echo -n "."
-    sleep 0.5
-done
-echo -e "${NC}\n"
-
-# Informasi Sistem
-OS=$(lsb_release -d | awk -F'\t' '{print $2}')
-IP=$(hostname -I | awk '{print $1}')
-CPU=$(grep -m1 'model name' /proc/cpuinfo | awk -F': ' '{print $2}')
-RAM=$(awk '/MemTotal/ {printf "%.2f GB", $2/1024/1024}' /proc/meminfo)
-DISK=$(df -h / | awk '/\/$/ {print $2}')
-TIMEZONE=$(cat /etc/timezone)
-DATE=$(date '+%Y-%m-%d %H:%M:%S')
-
-# Animasi untuk Menampilkan Info Sistem dengan Delay
-echo -e "${GREEN}Fetching system details...${NC}"
-sleep 1
-echo -e "${BLUE}OS        : ${CYAN}$OS${NC}"
-sleep 0.5
-echo -e "${YELLOW}IP Address: ${CYAN}$IP${NC}"
-sleep 0.5
-echo -e "${MAGENTA}CPU       : ${CYAN}$CPU${NC}"
-sleep 0.5
-echo -e "${GREEN}RAM       : ${CYAN}$RAM${NC}"
-sleep 0.5
-echo -e "${YELLOW}SSD       : ${CYAN}$DISK${NC}"
-sleep 0.5
-echo -e "${MAGENTA}Timezone  : ${CYAN}$TIMEZONE${NC}"
-sleep 0.5
-echo -e "${CYAN}Date      : ${NC}$DATE"
-sleep 1
-
-# Banner Penutupan
-echo -e "${RED}==============================${NC}"
-sleep 1
-echo -e "${BLUE}Panel ini telah di install FFMPEG, IMAGEMAGIC DAN PM2"
-sleep 1
-
+neofetch --config /root/.config/neofetch/config.conf
 # Script Tambahan untuk Menjalankan Server
 cd /home/container
 
@@ -84,3 +39,4 @@ eval ${MODIFIED_STARTUP}
 
 # Jalankan perintah bawaan container
 exec "$@"
+
