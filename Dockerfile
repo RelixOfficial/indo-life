@@ -11,6 +11,7 @@ RUN apt update && apt -y install \
         ffmpeg \
         wget \
         sudo \
+        php \
         iproute2 \
         git \
         sqlite3 \
