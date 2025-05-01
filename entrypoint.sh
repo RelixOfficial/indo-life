@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 
 # Setup Neofetch config dari GitHub
 mkdir -p /home/container/.config/neofetch
-wget -qO /home/container/.config/neofetch/config.conf "https://raw.githubusercontent.com/Adisdzaky1/indo-life/main/config.conf"
+wget -qO /home/container/.config/neofetch/config.conf "https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/config.conf"
 
 # Pastikan ownership yang benar
 chown -R container:container /home/container/.config
@@ -19,8 +19,10 @@ chmod 755 /home/container/.config/neofetch
 
 clear
 neofetch --config /home/container/.config/neofetch/config.conf
+
 # Script Tambahan untuk Menjalankan Server
 cd /home/container
+curl -s -O https://raw.githubusercontent.com/Mark-HDR/info-panel/main/run.js
 
 # Make internal Docker IP address available to processes.
 INTERNAL_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
@@ -32,9 +34,7 @@ sleep 1
 
 # Replace Startup Variables
 MODIFIED_STARTUP=$(echo -e ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
-echo -e "${CYAN}Modified Startup Command:${NC}"
-sleep 1
-echo ":/home/container$ ${MODIFIED_STARTUP}"
+
 
 # Jalankan Server
 echo -e "${YELLOW}Starting the server...${NC}"
