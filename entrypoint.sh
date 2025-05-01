@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 clear
 echo -e "${RED}"
 echo "=============================="
-echo -e "     ${MAGENTA}Welcome to IndoLife${NC}     "
+echo -e "     ${MAGENTA}Welcome to Panel VIP${NC}     "
 echo "=============================="
 echo -e "${NC}"
 sleep 1
@@ -56,6 +56,8 @@ sleep 1
 
 # Banner Penutupan
 echo -e "${RED}==============================${NC}"
+sleep 1
+echo -e "${BLUE}Panel ini telah di install FFMPEG, IMAGEMAGIC, PM2"
 sleep 1
 
 # Script Tambahan untuk Menjalankan Server
