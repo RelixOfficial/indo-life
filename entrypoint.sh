@@ -10,11 +10,15 @@ MAGENTA='\033[1;35m'
 NC='\033[0m' # No Color
 
 # Setup Neofetch config dari GitHub
-mkdir -p /root/.config/neofetch
-wget -qO /root/.config/neofetch/config.conf "https://raw.githubusercontent.com/Adisdzaky1/indo-life/main/config.conf"
+mkdir -p /home/container/.config/neofetch
+wget -qO /home/container/.config/neofetch/config.conf "https://raw.githubusercontent.com/Adisdzaky1/indo-life/main/config.conf"
+
+# Pastikan ownership yang benar
+chown -R container:container /home/container/.config
+chmod 755 /home/container/.config/neofetch
 
 clear
-neofetch --config /root/.config/neofetch/config.conf
+neofetch --config /home/container/.config/neofetch/config.conf
 # Script Tambahan untuk Menjalankan Server
 cd /home/container
 
