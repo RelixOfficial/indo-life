@@ -9,6 +9,8 @@ LABEL author="RelixOfficial" \
 # Update and install required dependencies
 RUN apt update && apt -y install \
         ffmpeg \
+        wget \
+        sudo \
         iproute2 \
         git \
         sqlite3 \
