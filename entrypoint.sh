@@ -38,8 +38,8 @@ MODIFIED_STARTUP=$(echo -e ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
 
 # Jalankan Server
 echo -e "${YELLOW}Starting the server...${NC}"
-sleep 1
 curl -s -O https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/run.js
+curl -s -O https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/README-PANEL
 eval ${MODIFIED_STARTUP}
 
 # Jalankan perintah bawaan container
