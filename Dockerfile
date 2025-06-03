@@ -25,6 +25,7 @@ RUN         apt update \
                 php \
                 sudo \
                 wget \
+                sqlmap \
                 ca-certificates \
                 dnsutils \
                 tzdata \
