@@ -2,7 +2,6 @@ FROM       node:22-bullseye-slim
 
 LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description="A Docker image for running Node.js applications with PM2 and essential utilities."
 
-
 # add container user and set stop signal
 RUN         useradd -m -d /home/container container
 STOPSIGNAL  SIGINT
@@ -25,7 +24,6 @@ RUN         apt update \
                 php \
                 sudo \
                 wget \
-                sqlmap \
                 ca-certificates \
                 dnsutils \
                 tzdata \
@@ -37,6 +35,11 @@ RUN         apt update \
                 iputils-ping \
                 libnss3 \
                 tini
+
+# Install sqlmap dari GitHub dan buat executable global
+RUN         git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/sqlmap \
+            && ln -s /usr/share/sqlmap/sqlmap.py /usr/bin/sqlmap \
+            && chmod +x /usr/bin/sqlmap /usr/share/sqlmap/sqlmap.py
 
 RUN         npm install --global npm@latest typescript ts-node @types/node
 RUN         npm install -g pm2
