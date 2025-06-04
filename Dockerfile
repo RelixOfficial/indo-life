@@ -19,7 +19,7 @@ RUN         apt update \
                 python3-pip \
                 golang \
                 webp \
-                docker \
+                docker-ce \
                 neofetch \
                 imagemagick \
                 php \
