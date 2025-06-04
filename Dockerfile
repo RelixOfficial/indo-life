@@ -23,7 +23,7 @@ RUN         apt update \
                 git \
                 sqlite3 \
                 libsqlite3-dev \
-                
+                elixir \
                 python3 \
                 python3-dev \
                 python3-pip \
@@ -82,13 +82,6 @@ RUN curl -fsSL https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTH
  && ./configure --enable-optimizations \
  && make -j$(nproc) && make install
 
-# PHP
-WORKDIR /tmp/php
-RUN curl -fsSL https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz -o php.tgz \
- && tar -xzf php.tgz && cd php-${PHP_VERSION} \
- && ./configure --disable-cgi --enable-cli --with-openssl --with-zlib \
- && make -j$(nproc) && make install
-
 # PERL
 WORKDIR /tmp/perl
 RUN curl -fsSL https://www.cpan.org/src/5.0/perl-${PERL_VERSION}.tar.gz -o perl.tgz \
@@ -111,6 +104,13 @@ RUN curl -fsSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-in
 ENV DOTNET_ROOT="/usr/share/dotnet"
 ENV PATH="$DOTNET_ROOT:$PATH"
 
+# PHP
+WORKDIR /tmp/php
+RUN curl -fsSL https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz -o php.tgz \
+ && tar -xzf php.tgz && cd php-${PHP_VERSION} \
+ && ./configure --disable-cgi --enable-cli --with-openssl --with-zlib \
+ && make -j$(nproc) && make install
+ 
 # RUBY
 WORKDIR /tmp/ruby
 RUN curl -fsSL https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar.gz -o ruby.tgz \
