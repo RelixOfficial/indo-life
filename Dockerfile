@@ -24,9 +24,7 @@ RUN         apt update \
                 sqlite3 \
                 libsqlite3-dev \
                 elixir \
-                python3 \
-                python3-dev \
-                python3-pip \
+                
                 webp \
                 neofetch \
                 imagemagick \
@@ -76,12 +74,17 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:$PATH"
 
 # PYTHON
+# PYTHON (manual build dari source)
 WORKDIR /tmp/python
 RUN curl -fsSL https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o python.tgz \
  && tar -xzf python.tgz && cd Python-${PYTHON_VERSION} \
  && ./configure --enable-optimizations \
- && make -j$(nproc) && make install
-
+ && make -j$(nproc) && make altinstall \
+ && ln -s /usr/local/bin/python3.12 /usr/local/bin/python3 \
+ && ln -s /usr/local/bin/python3 /usr/local/bin/python \
+ && ln -s /usr/local/bin/pip3.12 /usr/local/bin/pip3 \
+ && ln -s /usr/local/bin/pip3 /usr/local/bin/pip
+ 
 # PERL
 WORKDIR /tmp/perl
 RUN curl -fsSL https://www.cpan.org/src/5.0/perl-${PERL_VERSION}.tar.gz -o perl.tgz \
