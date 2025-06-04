@@ -61,6 +61,8 @@ RUN         apt update \
                 cmake \
                 autoconf \
                 libxml2-dev \
+                zlib1g-dev \
+                libyaml-dev \
                 libjpeg-dev \
                 libpng-dev
 
