@@ -117,29 +117,6 @@ RUN curl -fsSL https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar
  && tar -xzf ruby.tgz && cd ruby-${RUBY_VERSION} \
  && ./configure && make -j$(nproc) && make install
 
-# KOTLIN
-WORKDIR /opt
-RUN curl -fsSL https://github.com/JetBrains/kotlin/releases/latest/download/kotlin-compiler-1.9.24.zip -o kotlin.zip \
- && unzip kotlin.zip -d kotlin && rm kotlin.zip
-ENV PATH="/opt/kotlin/bin:$PATH"
-
-# SWIFT
-WORKDIR /opt
-RUN curl -fsSL https://download.swift.org/swift-5.10-release/ubuntu2204/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu22.04.tar.gz -o swift.tgz \
- && tar -xzf swift.tgz && mv swift-* swift && rm swift.tgz
-ENV PATH="/opt/swift/usr/bin:$PATH"
-
-# DART
-WORKDIR /opt
-RUN curl -fsSL https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip -o dart.zip \
- && unzip dart.zip -d dart && rm dart.zip
-ENV PATH="/opt/dart/dart-sdk/bin:$PATH"
-
-# ELIXIR
-WORKDIR /tmp/elixir
-RUN git clone https://github.com/elixir-lang/elixir.git . \
- && make -j$(nproc) && make install
-
 # Install sqlmap dari GitHub dan buat executable global
 RUN         git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/sqlmap \
             && ln -s /usr/share/sqlmap/sqlmap.py /usr/bin/sqlmap \
