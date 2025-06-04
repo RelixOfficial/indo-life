@@ -30,7 +30,7 @@ RUN         apt update \
                 webp \
                 neofetch \
                 imagemagick \
-              
+                ssh \
                 sudo \
                 wget \
                 ca-certificates \
@@ -70,6 +70,10 @@ RUN         apt update \
 # GO
 RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz | tar -C /usr/local -xzf -
 ENV PATH="/usr/local/go/bin:$PATH"
+
+# RUST
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
 
 # PYTHON
 WORKDIR /tmp/python
@@ -113,10 +117,6 @@ RUN curl -fsSL https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar
  && tar -xzf ruby.tgz && cd ruby-${RUBY_VERSION} \
  && ./configure && make -j$(nproc) && make install
 
-# RUST
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="/root/.cargo/bin:$PATH"
-
 # KOTLIN
 WORKDIR /opt
 RUN curl -fsSL https://github.com/JetBrains/kotlin/releases/latest/download/kotlin-compiler-1.9.24.zip -o kotlin.zip \
@@ -128,12 +128,6 @@ WORKDIR /opt
 RUN curl -fsSL https://download.swift.org/swift-5.10-release/ubuntu2204/swift-${SWIFT_VERSION}-RELEASE/swift-${SWIFT_VERSION}-RELEASE-ubuntu22.04.tar.gz -o swift.tgz \
  && tar -xzf swift.tgz && mv swift-* swift && rm swift.tgz
 ENV PATH="/opt/swift/usr/bin:$PATH"
-
-# LUA
-WORKDIR /tmp/lua
-RUN curl -fsSL https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz -o lua.tgz \
- && tar -xzf lua.tgz && cd lua-${LUA_VERSION} \
- && make linux test && make install
 
 # DART
 WORKDIR /opt
