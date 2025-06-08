@@ -1,4 +1,4 @@
-FROM       node:22-bullseye-slim
+FROM       node:18-bullseye-slim
 
 LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description="A Docker image for running Node.js applications with PM2 and essential utilities."
 
@@ -6,14 +6,14 @@ LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description=
 RUN useradd -m -d /home/container container
 STOPSIGNAL SIGINT
 
+# Versi stabil (LTS) untuk tiap bahasa
 ARG GO_VERSION=1.23.10
 ARG PYTHON_VERSION=3.12.11
-ARG PHP_VERSION=7.4.33
+ARG PHP_VERSION=8.3.21
 ARG PERL_VERSION=5.38.4
-ARG JAVA_VERSION=21.0.7
+ARG JAVA_VERSION=21.0.7+9
 ARG DOTNET_VERSION=8.0.16
 ARG RUBY_VERSION=3.3.8
-ARG NODEJS_VERSION=22
 
 # Install base dependencies via apt (keperluan build)
 RUN apt update && apt -y install \
@@ -73,8 +73,8 @@ ADD https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz /tmp/go${GO_VERSION}.li
 ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz /tmp/php-${PHP_VERSION}.tgz
 # Perl
 ADD https://www.cpan.org/src/5.0/perl-${PERL_VERSION}.tar.gz /tmp/perl-${PERL_VERSION}.tgz
-# Java (Temurin/OpenJDK)
-ADD https://github.com/adoptium/temurin21-binaries/releases/download/${JAVA_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.3_9.tar.gz /tmp/java-${JAVA_VERSION}.tgz
+# Java (Temurin/OpenJDK 21 LTS)
+ADD https://github.com/adoptium/temurin21-binaries/releases/download/jdk-${JAVA_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz /tmp/java-${JAVA_VERSION}.tgz
 # Ruby
 ADD https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar.gz /tmp/ruby-${RUBY_VERSION}.tgz
 
@@ -145,10 +145,11 @@ RUN git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/s
     ln -s /usr/share/sqlmap/sqlmap.py /usr/bin/sqlmap && \
     chmod +x /usr/bin/sqlmap /usr/share/sqlmap/sqlmap.py
 
+# Node.js & PM2
 RUN npm install --global npm@latest typescript ts-node @types-node
 RUN npm install -g pm2
 
-# install pnpm
+# pnpm
 RUN npm install -g corepack && corepack enable && corepack prepare pnpm@latest --activate
 
 USER container
