@@ -9,10 +9,10 @@ STOPSIGNAL SIGINT
 # Versi stabil (LTS) untuk tiap bahasa
 ARG GO_VERSION=1.23.10
 ARG PYTHON_VERSION=3.12.11
-ARG PHP_VERSION=8.3.21
+ARG PHP_VERSION=7.4.33
 ARG PERL_VERSION=5.38.4
 ARG JAVA_VERSION=21.0.7+9
-ARG DOTNET_VERSION=8.0.16
+ARG DOTNET_VERSION=8.0.301
 ARG RUBY_VERSION=3.3.8
 
 # Install base dependencies via apt (keperluan build)
@@ -80,35 +80,6 @@ ADD https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar.gz /tmp/ru
 
 # ========== Install bahasa dari sumber resmi (manual build) ==========
 
-# GO
-RUN tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz && \
-    rm /tmp/go${GO_VERSION}.linux-amd64.tar.gz
-ENV PATH="/usr/local/go/bin:$PATH"
-
-# RUST
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
-ENV PATH="/root/.cargo/bin:$PATH"
-
-# PYTHON
-WORKDIR /tmp/python
-RUN tar -xzf /tmp/Python-${PYTHON_VERSION}.tgz && \
-    cd Python-${PYTHON_VERSION} && \
-    ./configure --enable-optimizations && \
-    make -j$(nproc) && make altinstall && \
-    ln -s /usr/local/bin/python3.12 /usr/local/bin/python3 && \
-    ln -s /usr/local/bin/python3 /usr/local/bin/python && \
-    ln -s /usr/local/bin/pip3.12 /usr/local/bin/pip3 && \
-    ln -s /usr/local/bin/pip3 /usr/local/bin/pip && \
-    rm -rf /tmp/python
-
-# PERL
-WORKDIR /tmp/perl
-RUN tar -xzf /tmp/perl-${PERL_VERSION}.tgz && \
-    cd perl-${PERL_VERSION} && \
-    ./Configure -des -Dprefix=/usr/local && \
-    make -j$(nproc) && make install && \
-    rm -rf /tmp/perl
-
 # JAVA
 WORKDIR /opt
 RUN tar -xzf /tmp/java-${JAVA_VERSION}.tgz && mv jdk-* java && \
@@ -125,6 +96,23 @@ RUN curl -fsSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-in
 ENV DOTNET_ROOT="/usr/share/dotnet"
 ENV PATH="$DOTNET_ROOT:$PATH"
 
+# GO
+RUN tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-amd64.tar.gz && \
+    rm /tmp/go${GO_VERSION}.linux-amd64.tar.gz
+ENV PATH="/usr/local/go/bin:$PATH"
+
+# RUST
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
+
+# PERL
+WORKDIR /tmp/perl
+RUN tar -xzf /tmp/perl-${PERL_VERSION}.tgz && \
+    cd perl-${PERL_VERSION} && \
+    ./Configure -des -Dprefix=/usr/local && \
+    make -j$(nproc) && make install && \
+    rm -rf /tmp/perl
+
 # PHP
 WORKDIR /tmp/php
 RUN tar -xzf /tmp/php-${PHP_VERSION}.tgz && \
@@ -140,6 +128,18 @@ RUN tar -xzf /tmp/ruby-${RUBY_VERSION}.tgz && \
     ./configure && make -j$(nproc) && make install && \
     rm -rf /tmp/ruby
 
+# PYTHON
+WORKDIR /tmp/python
+RUN tar -xzf /tmp/Python-${PYTHON_VERSION}.tgz && \
+    cd Python-${PYTHON_VERSION} && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && make altinstall && \
+    ln -s /usr/local/bin/python3.12 /usr/local/bin/python3 && \
+    ln -s /usr/local/bin/python3 /usr/local/bin/python && \
+    ln -s /usr/local/bin/pip3.12 /usr/local/bin/pip3 && \
+    ln -s /usr/local/bin/pip3 /usr/local/bin/pip && \
+    rm -rf /tmp/python
+    
 # Install sqlmap dari GitHub dan buat executable global
 RUN git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/sqlmap && \
     ln -s /usr/share/sqlmap/sqlmap.py /usr/bin/sqlmap && \
