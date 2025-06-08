@@ -11,7 +11,7 @@ ARG GO_VERSION=1.23.10
 ARG PYTHON_VERSION=3.12.11
 ARG PHP_VERSION=7.4.33
 ARG PERL_VERSION=5.38.4
-ARG JAVA_VERSION=21.0.7+9
+ARG JAVA_VERSION=21.0.7+6
 ARG DOTNET_VERSION=8.0.301
 ARG RUBY_VERSION=3.3.8
 
@@ -74,7 +74,7 @@ ADD https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz /tmp/php-${PHP_V
 # Perl
 ADD https://www.cpan.org/src/5.0/perl-${PERL_VERSION}.tar.gz /tmp/perl-${PERL_VERSION}.tgz
 # Java (Temurin/OpenJDK 21 LTS)
-ADD https://github.com/adoptium/temurin21-binaries/releases/download/jdk-${JAVA_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_${JAVA_VERSION}.tar.gz /tmp/java-${JAVA_VERSION}.tgz
+ADD https://github.com/adoptium/temurin21-binaries/releases/download/jdk-${JAVA_VERSION}/OpenJDK21U-jdk_x64_linux_hotspot_21.0.7_6.tar.gz /tmp/java-${JAVA_VERSION}.tgz
 # Ruby
 ADD https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar.gz /tmp/ruby-${RUBY_VERSION}.tgz
 
