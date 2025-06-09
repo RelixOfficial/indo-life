@@ -14,8 +14,10 @@ mkdir -p /home/container/.config/neofetch
 wget -qO /home/container/.config/neofetch/config.conf "https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/config.conf"
 
 # Pastikan ownership yang benar
+chown -R container:container /home/container
 chown -R container:container /home/container/.config
 chmod 755 /home/container/.config/neofetch
+
 
 # =============================================
 # VALIDASI IP PANEL DARI DATABASE GITHUB
