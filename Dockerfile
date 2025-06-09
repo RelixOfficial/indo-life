@@ -1,4 +1,4 @@
-FROM       node:18-bullseye-slim
+FROM       node:20-bullseye-slim
 
 LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description="A Docker image for running Node.js applications with PM2 and essential utilities."
 
@@ -146,11 +146,14 @@ RUN git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/s
     chmod +x /usr/bin/sqlmap /usr/share/sqlmap/sqlmap.py
 
 # Node.js & PM2
-RUN npm install --global npm@latest typescript ts-node @types-node
+RUN npm install --global npm@latest typescript ts-node @types/node
 RUN npm install -g pm2
 
 # pnpm
 RUN npm install -g corepack && corepack enable && corepack prepare pnpm@latest --activate
+
+# Beri akses penuh ke user container untuk semua folder dalam home-nya
+RUN chown -R container:container /home/container
 
 USER container
 ENV USER=container HOME=/home/container
