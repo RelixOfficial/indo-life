@@ -1,4 +1,4 @@
-FROM       node:20-bullseye-slim
+FROM       node:lts-bullseye-slim
 
 LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description="A Docker image for running Node.js applications with PM2 and essential utilities."
 
