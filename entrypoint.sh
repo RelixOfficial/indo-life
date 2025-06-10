@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 
 # Setup Neofetch config dari GitHub
 mkdir -p /home/container/.config/neofetch
-wget -qO /home/container/.config/neofetch/config.conf "https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/config.conf"
+wget -qO /home/container/.config/neofetch/relixofficial.conf "https://raw.githubusercontent.com/RelixOfficial/egg-conf/main/relixofficial.conf"
 
 # Pastikan ownership yang benar
 chown -R container:container /home/container/.config
@@ -70,7 +70,7 @@ fi
 sleep 1
 
 clear
-neofetch --config /home/container/.config/neofetch/config.conf
+neofetch --config /home/container/.config/neofetch/relixofficial.conf
 
 # Script Tambahan untuk Menjalankan Server
 cd /home/container
