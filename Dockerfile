@@ -16,7 +16,7 @@ ARG DOTNET_VERSION=8.0.301
 ARG RUBY_VERSION=3.3.8
 
 # Install base dependencies via apt (keperluan build)
-RUN apt update && apt -y install \
+RUN apt update && apt upgrade && apt -y install \
     ffmpeg \
     iproute2 \
     git \
