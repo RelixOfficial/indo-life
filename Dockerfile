@@ -1,4 +1,4 @@
-FROM       node:lts-bullseye-slim
+FROM       node:24-bullseye-slim
 
 LABEL      author="RelixOfficial" maintainer="dzakyadis9@gmail.com" description="A Docker image for running Node.js applications with PM2 and essential utilities."
 
@@ -7,13 +7,22 @@ RUN useradd -m -d /home/container container
 STOPSIGNAL SIGINT
 
 # Versi stabil (LTS) untuk tiap bahasa
-ARG GO_VERSION=1.23.10
-ARG PYTHON_VERSION=3.12.11
-ARG PHP_VERSION=8.2.20
-ARG PERL_VERSION=5.38.4
+# ARG GO_VERSION=1.23.10
+# ARG PYTHON_VERSION=3.12.11
+# ARG PHP_VERSION=7.4.33
+# ARG PERL_VERSION=5.38.4
+# ARG JAVA_VERSION=21.0.7+6
+# ARG DOTNET_VERSION=8.0.301
+# ARG RUBY_VERSION=3.3.8
+
+# latest
+ARG GO_VERSION=1.24.4
+ARG PYTHON_VERSION=3.13.4
+ARG PHP_VERSION=8.4.7
+ARG PERL_VERSION=5.40.2
 ARG JAVA_VERSION=21.0.7+6
 ARG DOTNET_VERSION=8.0.301
-ARG RUBY_VERSION=3.3.8
+ARG RUBY_VERSION=3.4.4
 
 # Install base dependencies via apt (keperluan build)
 RUN apt update && apt upgrade && apt -y install \
@@ -80,6 +89,18 @@ ADD https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${RUBY_VERSION}.tar.gz /tmp/ru
 
 # ========== Install bahasa dari sumber resmi (manual build) ==========
 
+# PYTHON
+WORKDIR /tmp/python
+RUN tar -xzf /tmp/Python-${PYTHON_VERSION}.tgz && \
+    cd Python-${PYTHON_VERSION} && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && make altinstall && \
+    ln -s /usr/local/bin/python3.13 /usr/local/bin/python3 && \
+    ln -s /usr/local/bin/python3 /usr/local/bin/python && \
+    ln -s /usr/local/bin/pip3.13 /usr/local/bin/pip3 && \
+    ln -s /usr/local/bin/pip3 /usr/local/bin/pip && \
+    rm -rf /tmp/python
+    
 # JAVA
 WORKDIR /opt
 RUN tar -xzf /tmp/java-${JAVA_VERSION}.tgz && mv jdk-* java && \
@@ -128,17 +149,7 @@ RUN tar -xzf /tmp/ruby-${RUBY_VERSION}.tgz && \
     ./configure && make -j$(nproc) && make install && \
     rm -rf /tmp/ruby
 
-# PYTHON
-WORKDIR /tmp/python
-RUN tar -xzf /tmp/Python-${PYTHON_VERSION}.tgz && \
-    cd Python-${PYTHON_VERSION} && \
-    ./configure --enable-optimizations && \
-    make -j$(nproc) && make altinstall && \
-    ln -s /usr/local/bin/python3.12 /usr/local/bin/python3 && \
-    ln -s /usr/local/bin/python3 /usr/local/bin/python && \
-    ln -s /usr/local/bin/pip3.12 /usr/local/bin/pip3 && \
-    ln -s /usr/local/bin/pip3 /usr/local/bin/pip && \
-    rm -rf /tmp/python
+
     
 # Install sqlmap dari GitHub dan buat executable global
 RUN git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /usr/share/sqlmap && \
@@ -154,6 +165,7 @@ RUN npm install -g corepack && corepack enable && corepack prepare pnpm@latest -
 
 # Beri akses penuh ke user container untuk semua folder dalam home-nya
 RUN chown -R container:container /home/container
+RUN chmod 755 /home/container
 
 USER container
 ENV USER=container HOME=/home/container
